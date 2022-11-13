@@ -8,7 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("_allowOriginsProd", policy =>
+    options.AddPolicy("_allowOriginsDev", policy =>
     {
         policy.AllowAnyOrigin();
     });
@@ -17,12 +17,11 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseHttpsRedirection();
-app.UseCors("_allowOriginsProd");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    //app.UseCors("_allowOriginsDev");
+    app.UseCors("_allowOriginsDev");
 }
 
 app.UseSwagger();
