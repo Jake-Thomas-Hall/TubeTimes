@@ -1,0 +1,70 @@
+/* You can add global styles to this file, and also import other style files */
+$primary: #0009AB;
+$secondary: #DE2110;
+@use "sass:map";
+
+@import '/node_modules/bootstrap/scss/bootstrap.scss';
+@import '/node_modules/bootstrap-icons/font/bootstrap-icons.scss';
+
+$bakerloo: #B36305;
+$central: #E32017;
+$circle: #FFD300;
+$district: #00782A;
+$hammersmith-city: #F3A9BB;
+$jubilee: #A0A5A9;
+$metropolitan: #9B0056;
+$northern: #000000;
+$piccadilly: #003688;
+$victoria: #0098D4;
+$waterloo-city: #95CDBA;
+$dlr: #00A4A7;
+$elizabeth: #9364CD;
+$overground: #e86a10;
+$trams: #84B817;
+
+$black: #000;
+$white: #fff;
+
+$lines: (
+    "bakerloo": $bakerloo,
+    "central": $central,
+    "circle": $circle,
+    "district": $district,
+    "hammersmith-city": $hammersmith-city,
+    "jubilee": $jubilee,
+    "metropolitan": $metropolitan,
+    "northern": $northern,
+    "piccadilly": $piccadilly,
+    "victoria": $victoria,
+    "waterloo-city": $waterloo-city,
+    "dlr": $dlr,
+    "elizabeth": $elizabeth,
+    "overground": $overground,
+    "trams": $trams
+);
+
+@function text-colour($colour) {
+    @if (lightness($colour) > 60) {
+        @return #000;
+    }
+    @else {
+        @return #fff;
+    }
+}
+
+@each $line, $colour in $lines {
+    .#{$line} {
+        background-color: $colour !important;
+        color: text-colour($colour) !important;
+        border-color: $colour;
+
+        &:hover {
+            background-color: darken($colour, 5%) !important;
+            border-color: darken($colour, 5%) !important;
+        }
+    }
+}
+
+.vh-80 {
+    height: 80vh;
+}

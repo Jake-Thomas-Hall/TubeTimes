@@ -8,17 +8,12 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  apiCallSuccess: boolean = false;
+  year: string = '';
 
   constructor(
-    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
-    let apiUrl = environment.apiUrl
-
-    this.http.get(`${environment.apiUrl}WeatherForecast`).subscribe(response => {
-      this.apiCallSuccess = true;
-    });
+    this.year = new Date().getFullYear().toString();
   }
 }

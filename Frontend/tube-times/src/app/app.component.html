@@ -1,2 +1,12 @@
-<h1>API call success?</h1>
-<p>{{apiCallSuccess}}</p>
+<app-navigation></app-navigation>
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
+<footer class="border-top pt-4 px-3 my-4">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-end">
+            <img src="assets/images/underground.png" alt="Underground logo" height="20">
+            <small class="text-muted ps-2">&copy; Tube Times {{year}}</small>
+        </div>
+    </div>
+</footer>
