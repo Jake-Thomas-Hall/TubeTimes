@@ -1,3 +1,6 @@
+using TubeTimes.Api.API;
+using TubeTimes.Api.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +15,10 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin();
     });
 });
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient<IRequestManager, RequestManager>();
+builder.Services.AddScoped<ITfLAPI, TfLAPI>();
+//builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
