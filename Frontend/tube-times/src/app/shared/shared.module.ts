@@ -5,12 +5,14 @@ import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { BackButtonDirective } from './directives/back-button.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SearchHighlightDirective } from './directives/search-highlight.directive';
 
 @NgModule({
   declarations: [
     NavigationComponent,
     HomeComponent,
-    BackButtonDirective
+    BackButtonDirective,
+    SearchHighlightDirective
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   exports: [
     NavigationComponent,
     HomeComponent,
-    BackButtonDirective
+    BackButtonDirective,
+    SearchHighlightDirective
   ]
 })
 export class SharedModule { }

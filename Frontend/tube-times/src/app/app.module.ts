@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './components/auth/auth.module';
+import { LineModule } from './components/line/line.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,8 +18,10 @@ import { AuthModule } from './components/auth/auth.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
     SharedModule,
-    AuthModule
+    AuthModule,
+    LineModule
   ],
   providers: [],
   bootstrap: [AppComponent]

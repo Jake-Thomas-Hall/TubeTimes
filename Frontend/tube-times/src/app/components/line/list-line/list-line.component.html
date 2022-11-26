@@ -1,0 +1,41 @@
+<h2>Line Statuses</h2>
+<form [formGroup]="lineListForm" class="row g-3 mb-3">
+    <div class="col-12 col-md-3">
+        <label for="lineListSearch" class="form-label">Filter lines</label>
+        <input formControlName="search" type="search" class="form-control" id="lineListSearch" placeholder="e.g. Bakerloo">
+    </div>
+    <div class="col-12 col-md-2">
+        <label for="lineListFilter" class="form-label">Severity</label>
+        <select id="lineListFilter" class="form-select" formControlName="filter">
+            <option selected value="null">All</option>
+            <option value="'Good'">Good Service</option>
+            <option value="'Minor'">Minor Delays</option>
+            <option value="'Severe'">Severe Delays</option>
+        </select>
+    </div>
+</form>
+<div class="row g-2">
+    <div class="col-12 col-xl-3 col-lg-4 col-md-6" *ngFor="let line of lines">
+        <div class="card border-0 mb-2" [ngClass]="line.id">
+            <div class="card-body">
+                <h5 class="card-title" appSearchHighlight [searchedPhrase]="lineListForm.get('search')?.value" [content]="line.name" [classToApply]="'highlight'"></h5>
+                <a [routerLink]="[line.id]" class="btn btn-outline-light">View Routes</a>
+            </div>
+        </div>
+        <div *ngIf="line.lineStatuses[0].statusSeverity >= 10" class="alert alert-light border">
+            <p class="card-text status-padding"><span>{{line.lineStatuses[0].statusSeverityDescription}}</span><i
+                    class="bi bi-check-circle-fill text-success ps-2"></i></p>
+        </div>
+        <div *ngIf="line.lineStatuses[0].statusSeverity < 10 && line.lineStatuses[0].statusSeverity >= 7"
+            class="alert alert-warning">
+            <p class="card-text d-flex align-items-center"><span>{{line.lineStatuses[0].statusSeverityDescription}}<i
+                        class="bi bi-exclamation-circle-fill text-warning ps-2"></i></span><span class="ms-auto"><a
+                        [href]="'/line#status-' + line.id" class="btn btn-warning">Details</a></span></p>
+        </div>
+        <div *ngIf="line.lineStatuses[0].statusSeverity < 7" class="alert alert-danger align-button-test">
+            <p class="card-text d-flex align-items-center"><span>{{line.lineStatuses[0].statusSeverityDescription}}<i
+                        class="bi bi-exclamation-diamond-fill text-danger ps-2"></i></span><span class="ms-auto"><a
+                        [href]="'/line#status-' + line.id" class="btn btn-danger">Details</a></span></p>
+        </div>
+    </div>
+</div>

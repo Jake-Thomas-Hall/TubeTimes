@@ -8,16 +8,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  apiCallSuccess: boolean = false;
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
   ngOnInit(): void {
-    let apiUrl = environment.apiUrl
-
-    this.http.get(`${environment.apiUrl}WeatherForecast`).subscribe(response => {
-      this.apiCallSuccess = true;
-    });
   }
 
 }
