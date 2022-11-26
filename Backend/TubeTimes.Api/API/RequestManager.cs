@@ -11,12 +11,14 @@ namespace TubeTimes.Api.API
         private readonly IConfiguration _configuration;
         private readonly IMemoryCache _memoryCache;
         private readonly HttpClient _httpClient;
+        private readonly ILogger<RequestManager> _logger;
 
-        public RequestManager(HttpClient httpClient, IConfiguration configuration, IMemoryCache memoryCache)
+        public RequestManager(HttpClient httpClient, IConfiguration configuration, IMemoryCache memoryCache, ILogger<RequestManager> logger)
         {
             _configuration = configuration;
             _memoryCache = memoryCache;
             _httpClient = httpClient;
+            _logger = logger;
 
             _httpClient.BaseAddress = new Uri("https://api.tfl.gov.uk/");
             _httpClient.DefaultRequestHeaders.Add("app_key", _configuration.GetValue<string>("TfLAppKey"));
@@ -32,6 +34,7 @@ namespace TubeTimes.Api.API
             {  
                 if (_memoryCache.TryGetValue(cacheKey, out T cachedValue))
                 {
+                    _logger.LogInformation($"Cached item with key {cacheKey} was fetched, deletion delay: {cacheTimeoutSeconds}s");
                     return cachedValue;
                 }
             }

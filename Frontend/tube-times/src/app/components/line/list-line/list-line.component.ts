@@ -19,7 +19,7 @@ export class ListLineComponent implements OnInit {
     private apiService: ApiService,
     private route: ActivatedRoute,
     private fb: FormBuilder
-  ) { 
+  ) {
     this.lineListForm = fb.group({
       search: [null],
       filter: [null]
@@ -27,7 +27,7 @@ export class ListLineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    combineLatest([this.route.params, this.route.queryParams], (params, queryParams) => ({... params, ...queryParams})).subscribe(value => {
+    combineLatest([this.route.params, this.route.queryParams], (params, queryParams) => ({ ...params, ...queryParams })).subscribe(value => {
       this.apiService.getLineStatuses().subscribe(result => {
         this.unfilteredLines = result;
         this.lines = result;
@@ -35,23 +35,40 @@ export class ListLineComponent implements OnInit {
     });
 
     this.lineListForm.valueChanges
-    .pipe(
-      switchMap(sv => {
-        return of(this.unfilteredLines);
-      })
-    )
-    .subscribe(response => {
-      console.log(response);
+      .pipe(
+        switchMap(sv => {
+          return of(this.unfilteredLines);
+        })
+      )
+      .subscribe(response => {
+        console.log(response);
 
-      // TODO: Implement dropdown on severity filter as well
-      if (this.lineListForm.get('search')?.value && this.lineListForm.get('search')?.value !== '') {
-        const regex = new RegExp(`(${this.lineListForm.get('search')?.value})`, 'gi');
-        this.lines = this.unfilteredLines.filter(x => regex.test(x.name));
-      }
-      else {
-        this.lines = this.unfilteredLines;
-      }
-    })
+        // Filter by severity first
+        if (this.lineListForm.get('filter')?.value) {
+          let minimumSeverity = 10;
+          switch (this.lineListForm.get('filter')?.value) {
+            case 'Minor':
+              minimumSeverity = 7
+              break;
+            case 'Severe':
+              minimumSeverity = 6
+              break;
+            default:
+              break;
+          }
+          console.log(minimumSeverity);
+          this.lines = response.filter(x => x.lineStatuses.some(y => y.statusSeverity >= minimumSeverity));
+        }
+
+        // Filter remaining items by search string
+        if (this.lineListForm.get('search')?.value && this.lineListForm.get('search')?.value !== '') {
+          const regex = new RegExp(`(${this.lineListForm.get('search')?.value})`, 'gi');
+          this.lines = this.lines.filter(x => regex.test(x.name));
+        }
+        else {
+          this.lines = response;
+        }
+      })
   }
 
 }
