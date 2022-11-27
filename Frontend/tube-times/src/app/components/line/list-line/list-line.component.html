@@ -15,6 +15,11 @@
                 <option [value]="'Severe'">Severe Delays</option>
             </select>
         </div>
+        <div class="col-12 col-md-2">
+            <div class="d-flex align-items-end h-100">
+                <button class="btn btn-secondary" appBackButton type="button">Back <i class="bi bi-back"></i></button>
+            </div>
+        </div>
     </form>
     <div class="row g-2" [@fadeInOutStagger]="lines">
         <div class="stagger-animate col-12 col-xl-3 col-lg-4 col-md-6" *ngFor="let line of lines">

@@ -21,7 +21,6 @@ namespace TubeTimes.Api.API
             _logger = logger;
 
             _httpClient.BaseAddress = new Uri("https://api.tfl.gov.uk/");
-            _httpClient.DefaultRequestHeaders.Add("app_key", _configuration.GetValue<string>("TfLAppKey"));
         }
 
         public async Task<T> GetDataAsync<T>(string url, Dictionary<string, string>? queryParameters = null, bool useCache = false, string cacheKey = "", int cacheTimeoutSeconds = 60)
@@ -38,6 +37,8 @@ namespace TubeTimes.Api.API
                     return cachedValue;
                 }
             }
+
+            queryParameters.Add("app_key", _configuration.GetValue<string>("TfLAppKey"));
 
             // Make the request and convert json response to the generic type. Only reaches this point if not using caching or if cached value wasn't found.
             var result = await _httpClient.GetFromJsonAsync<T>(QueryHelpers.AddQueryString(url, queryParameters!)) ?? throw new NullReferenceException($"Query of URL {url} returned a null response");

@@ -10,6 +10,10 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
+  getLinesSearch(params: {[x: string]: any;}) {
+    return this.http.get<Line[]>(`${environment.apiUrl}Line`, { params: params })
+  }
+
   getLineStatuses() {
     return this.http.get<Line[]>(`${environment.apiUrl}Line/Status`);
   }

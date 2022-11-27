@@ -3,8 +3,8 @@ $primary: #FFC100;
 $secondary: #0A0903;
 @use "sass:map";
 
-@import '/node_modules/bootstrap/scss/bootstrap.scss';
-@import '/node_modules/bootstrap-icons/font/bootstrap-icons.scss';
+@import '/node_modules/bootstrap/scss/bootstrap';
+@import '/node_modules/bootstrap-icons/font/bootstrap-icons';
 
 $bakerloo: #B36305;
 $central: #E32017;

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, switchMap } from 'rxjs';
@@ -16,7 +16,7 @@ import { ApiService } from 'src/app/services/api.service';
     hideOnExit
   ]
 })
-export class ListLineComponent implements OnInit, OnDestroy {
+export class ListLineComponent implements OnInit {
   lines: Line[] = [];
   lineListForm: FormGroup;
   private unfilteredLines: Line[] = [];
@@ -81,10 +81,5 @@ export class ListLineComponent implements OnInit, OnDestroy {
       value = value.removeEmptyProperties();
       this.router.navigate([], { queryParams: value});
     });
-  }
-
-  @HostListener('unloaded')
-  ngOnDestroy(): void {
-    console.log('Cleared');
   }
 }

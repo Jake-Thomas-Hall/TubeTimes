@@ -1,56 +1,51 @@
 <div class="row g-4" @fadeInStagger>
-    <div class="col-12 text-center p-4 rounded-2 bg-light stagger-animate">
-        <h1 class="display-3">Welcome to Tube Times</h1>
-        <h3 class="text-muted">A tool to find information about tube services</h3>
+    <div class="col-12 text-center stagger-animate">
+        <div class="bg-light p-4 rounded-2">
+            <h1 class="display-3">Welcome to Tube Times</h1>
+            <h3 class="text-muted">A tool to find information about tube services</h3>
+        </div>
     </div>
-    <div class="col-12 col-lg-8 p-4 rounded-2 bg-light stagger-animate">
-        <div class="d-flex flex-column flex-lg-row align-items-center">
+    <div class="col-12 col-lg-8 stagger-animate">
+        <div class="d-flex flex-column flex-lg-row align-items-center p-4 rounded-2 bg-light">
             <div>
-                <img src="/assets/images/tubetimes.png" alt="Tube times logo" class="img-fluid" width="400" id="tubeTimesLogo">
+                <img src="/assets/images/tubetimes.png" alt="Tube times logo" class="img-fluid" width="400"
+                    id="tubeTimesLogo">
             </div>
             <div class="d-flex flex-column h-100 ps-4 mt-3 mt-lg-0">
-                <h2>View live tube line status</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet expedita laborum repudiandae ullam ex
-                    excepturi sunt iste quod a odit, doloremque, voluptas porro, iusto tenetur ipsum minus velit dicta
-                    optio.
-                </p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam quia architecto sunt consequuntur eaque
-                    nulla
-                    mollitia velit hic deserunt ratione dolores nihil non, exercitationem tempore eveniet aspernatur
-                    voluptatem,
-                    accusantium maxime.</p>
+                <h2>View live status</h2>
+                <p>You can use this tool to look at the current status for all of the rail based services in the TfL
+                    network.</p>
+                <p>Note that each line may contain a list of statuses, which affect different parts of the line. You can
+                    filter the statuses by type at the top, and search by name in the provided search box.</p>
                 <div class="mt-auto">
-                    <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 victoria" routerLink="/line/victoria">Victoria</a>
-                    <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 bakerloo" routerLink="/line/bakerloo">Bakerloo</a>
-                    <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 piccadilly" routerLink="/line/piccadilly">Piccadilly</a>
-                    <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 jubilee" routerLink="/line/jubilee">Jubilee</a>
-                    <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 northern" routerLink="/line/northern">Northern</a>
-                    <a class="btn btn-outline-primary mt-2 mt-xxl-0" routerLink="/line">View All <i class="bi bi-view-list"></i></a>
+                    <a class="btn btn-outline-primary mt-2 mt-xxl-0" routerLink="/line">View <i
+                            class="bi bi-view-list"></i></a>
                 </div>
             </div>
         </div>
-        
+
     </div>
-    <div class="col-6 col-lg-4 rounded-2 stagger-animate">
-        <img class="img-fluid" src="/assets/images/placeholder.png" alt="placeholder">
+    <div class="col-6 col-lg-4 stagger-animate">
+        <div class="h-100 rounded-2 status-image" style="background-image: url('/assets/images/status-example.png');">
+        </div>
     </div>
-    <div class="col-6 col-lg-4 rounded-2 stagger-animate">
-        <img class="img-fluid" src="/assets/images/placeholder.png" alt="placeholder">
+    <div class="col-6 col-lg-4 stagger-animate">
+        <div class="h-100 rounded-2 status-image" style="background-image: url('/assets/images/placeholder.png');">
+        </div>
     </div>
-    <div class="col-12 col-lg-8 p-4 rounded-2 bg-light stagger-animate">
-        <div class="d-flex flex-column h-100">
-            <h2>View tube routes</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet expedita laborum repudiandae ullam ex
-                excepturi sunt iste quod a odit, doloremque, voluptas porro, iusto tenetur ipsum minus velit dicta
-                optio.
-            </p>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam quia architecto sunt consequuntur eaque
-                nulla
-                mollitia velit hic deserunt ratione dolores nihil non, exercitationem tempore eveniet aspernatur
-                voluptatem,
-                accusantium maxime.</p>
+    <div class="col-12 col-lg-8 stagger-animate">
+        <div class="d-flex flex-column p-4 rounded-2 bg-light h-100">
+            <h2>View routes</h2>
+            <p>With each line, they often consist of different routes, on these pages you're able to select the route and direction you wish to view for a line.</p>
+            <p>You can click on a station to view live updates of next services that are stopping at that station.</p>
+            <p>If the line you want isn't below, simply click "View all" and you can then select to view routes for a line.</p>
             <div class="mt-auto">
-                <a class="btn btn-outline-primary" routerLink="/">View All <i class="bi bi-view-list"></i></a>
+                <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 victoria" routerLink="/line/victoria">Victoria</a>
+                <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 bakerloo" routerLink="/line/bakerloo">Bakerloo</a>
+                <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 piccadilly" routerLink="/line/piccadilly">Piccadilly</a>
+                <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 jubilee" routerLink="/line/jubilee">Jubilee</a>
+                <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 northern" routerLink="/line/northern">Northern</a>
+                <a class="btn btn-outline-primary" routerLink="/line">View All <i class="bi bi-view-list"></i></a>
             </div>
         </div>
     </div>
