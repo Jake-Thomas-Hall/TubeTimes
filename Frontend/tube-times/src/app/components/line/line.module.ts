@@ -5,11 +5,13 @@ import { LineRoutingModule } from './line-routing.module';
 import { ListLineComponent } from './list-line/list-line.component';
 import { LineRoutesComponent } from './line-routes/line-routes.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LineStatusComponent } from './line-status/line-status.component';
 
 @NgModule({
   declarations: [
     ListLineComponent,
-    LineRoutesComponent
+    LineRoutesComponent,
+    LineStatusComponent
   ],
   imports: [
     CommonModule,

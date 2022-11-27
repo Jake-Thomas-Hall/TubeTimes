@@ -58,10 +58,6 @@ $lines: (
         color: text-colour($colour) !important;
         border-color: $colour;
 
-        & .btn {
-            color: text-colour($colour) !important;
-        }
-
         &:hover:is(.btn, a) {
             background-color: darken($colour, 5%) !important;
             border-color: darken($colour, 5%) !important;

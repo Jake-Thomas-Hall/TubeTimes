@@ -6,13 +6,15 @@ import { AppRoutingModule } from '../app-routing.module';
 import { BackButtonDirective } from './directives/back-button.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchHighlightDirective } from './directives/search-highlight.directive';
+import { ToastsComponent } from './components/toasts/toasts.component';
 
 @NgModule({
   declarations: [
     NavigationComponent,
     HomeComponent,
     BackButtonDirective,
-    SearchHighlightDirective
+    SearchHighlightDirective,
+    ToastsComponent
   ],
   imports: [
     CommonModule,
@@ -22,6 +24,7 @@ import { SearchHighlightDirective } from './directives/search-highlight.directiv
   exports: [
     NavigationComponent,
     HomeComponent,
+    ToastsComponent,
     BackButtonDirective,
     SearchHighlightDirective
   ]

@@ -1,74 +1,90 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { combineLatest, of, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of, switchMap } from 'rxjs';
+import { fadeInOutStagger } from 'src/app/animations/fade-in-out-stagger.animation';
+import { hideOnExit } from 'src/app/animations/hide-on-exit.animation';
 import { Line } from 'src/app/models/responses/lines.response.model';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-list-line',
   templateUrl: './list-line.component.html',
-  styleUrls: ['./list-line.component.scss']
+  styleUrls: ['./list-line.component.scss'],
+  animations: [
+    fadeInOutStagger,
+    hideOnExit
+  ]
 })
-export class ListLineComponent implements OnInit {
+export class ListLineComponent implements OnInit, OnDestroy {
   lines: Line[] = [];
   lineListForm: FormGroup;
   private unfilteredLines: Line[] = [];
 
   constructor(
     private apiService: ApiService,
-    private route: ActivatedRoute,
-    private fb: FormBuilder
+    public route: ActivatedRoute,
+    private fb: FormBuilder,
+    private router: Router
   ) {
-    this.lineListForm = fb.group({
-      search: [null],
-      filter: [null]
+    this.lineListForm = this.fb.group({
+      search: [''],
+      filter: ['']
     })
   }
+  
 
   ngOnInit(): void {
-    combineLatest([this.route.params, this.route.queryParams], (params, queryParams) => ({ ...params, ...queryParams })).subscribe(value => {
-      this.apiService.getLineStatuses().subscribe(result => {
-        this.unfilteredLines = result;
-        this.lines = result;
-      })
-    });
+    this.lineListForm.patchValue(this.route.snapshot.queryParams);
 
-    this.lineListForm.valueChanges
-      .pipe(
-        switchMap(sv => {
-          return of(this.unfilteredLines);
-        })
-      )
-      .subscribe(response => {
-        console.log(response);
+    this.apiService.getLineStatuses().subscribe(result => {
+      this.unfilteredLines = result;
+      this.lines = result;
 
+      // Only subscribe to query params in case of successful query
+      this.route.queryParams
+      .pipe(switchMap(sv => {
+          return of(sv);
+      }))
+      .subscribe(params => {
         // Filter by severity first
-        if (this.lineListForm.get('filter')?.value) {
-          let minimumSeverity = 10;
-          switch (this.lineListForm.get('filter')?.value) {
+        let resultingLines = this.unfilteredLines;
+
+        if (params['filter']) {
+          let filterValue = this.lineListForm.get('filter')?.value
+          switch (filterValue) {
+            case 'Good':
+              resultingLines = resultingLines.filter(x => x.lineStatuses.some(y => y.statusSeverity >= 10));
+              break;
             case 'Minor':
-              minimumSeverity = 7
+              resultingLines = resultingLines.filter(x => x.lineStatuses.some(y => y.statusSeverity <= 9 && y.statusSeverity >= 7));
               break;
             case 'Severe':
-              minimumSeverity = 6
+              resultingLines = resultingLines.filter(x => x.lineStatuses.some(y => y.statusSeverity < 7));
               break;
             default:
               break;
           }
-          console.log(minimumSeverity);
-          this.lines = response.filter(x => x.lineStatuses.some(y => y.statusSeverity >= minimumSeverity));
         }
 
         // Filter remaining items by search string
-        if (this.lineListForm.get('search')?.value && this.lineListForm.get('search')?.value !== '') {
+        if (params['search'] && params['search'] !== '') {
           const regex = new RegExp(`(${this.lineListForm.get('search')?.value})`, 'gi');
-          this.lines = this.lines.filter(x => regex.test(x.name));
+          resultingLines = resultingLines.filter(x => regex.test(x.name));
         }
-        else {
-          this.lines = response;
-        }
-      })
+
+        this.lines = resultingLines;
+      });
+    });
+
+    this.lineListForm.valueChanges.subscribe((value: Object) => {
+      value = value.removeEmptyProperties();
+      this.router.navigate([], { queryParams: value});
+    });
   }
 
+  @HostListener('unloaded')
+  ngOnDestroy(): void {
+    console.log('Cleared');
+  }
 }

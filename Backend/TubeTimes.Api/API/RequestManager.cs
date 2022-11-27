@@ -24,7 +24,7 @@ namespace TubeTimes.Api.API
             _httpClient.DefaultRequestHeaders.Add("app_key", _configuration.GetValue<string>("TfLAppKey"));
         }
 
-        public async Task<T?> GetDataAsync<T>(string url, Dictionary<string, string>? queryParameters = null, bool useCache = false, string cacheKey = "", int cacheTimeoutSeconds = 60)
+        public async Task<T> GetDataAsync<T>(string url, Dictionary<string, string>? queryParameters = null, bool useCache = false, string cacheKey = "", int cacheTimeoutSeconds = 60)
         {
             // If no parameters were passed, ensure there is an empty dictionary to prevent later issues...
             queryParameters = queryParameters ?? new ();
@@ -40,7 +40,7 @@ namespace TubeTimes.Api.API
             }
 
             // Make the request and convert json response to the generic type. Only reaches this point if not using caching or if cached value wasn't found.
-            var result = await _httpClient.GetFromJsonAsync<T>(QueryHelpers.AddQueryString(url, queryParameters!));
+            var result = await _httpClient.GetFromJsonAsync<T>(QueryHelpers.AddQueryString(url, queryParameters!)) ?? throw new NullReferenceException($"Query of URL {url} returned a null response");
 
             // In the case of using caching, need to set value into cache after query is complete, as the cached item has either expired or not been stored before 
             if (useCache)

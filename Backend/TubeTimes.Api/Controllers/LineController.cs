@@ -17,8 +17,14 @@ namespace TubeTimes.Api.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        public async Task<List<Line>> Get(string? search)
+        {
+            return await _tflAPI.GetLines(search);
+        }
+
         [HttpGet("Status")]
-        public async Task<List<Line>?> Get()
+        public async Task<List<Line>> Get()
         {
             return await _tflAPI.GetLineStatuses();
         }

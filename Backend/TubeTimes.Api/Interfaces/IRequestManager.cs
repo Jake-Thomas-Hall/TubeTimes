@@ -12,6 +12,6 @@
         /// <param name="cacheKey">The key to use for the cache of this request, make sure to use different keys for different request types</param>
         /// <param name="cacheTimeoutSeconds">Number of seconds until cached data is marked as expired.</param>
         /// <returns><typeparamref name="T"/></returns>
-        Task<T?> GetDataAsync<T>(string url, Dictionary<string, string>? queryParameters = null, bool useCache = false, string cacheKey = "", int cacheTimeoutSeconds = 60);
+        Task<T> GetDataAsync<T>(string url, Dictionary<string, string>? queryParameters = null, bool useCache = false, string cacheKey = "", int cacheTimeoutSeconds = 60);
     }
 }

@@ -1,11 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { ChildrenOutletContexts } from '@angular/router';
+import { slideInOut } from './animations/slide-in-out.animation';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    slideInOut
+  ]
 })
 export class AppComponent implements OnInit{
   year: string = '';
