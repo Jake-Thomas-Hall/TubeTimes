@@ -1,4 +1,4 @@
-﻿namespace TubeTimes.Api.Models
+﻿namespace TubeTimes.Api.Models.TfLTypes
 {
     public class LineStatus
     {

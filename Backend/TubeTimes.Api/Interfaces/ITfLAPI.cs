@@ -1,4 +1,5 @@
-﻿using TubeTimes.Api.Models;
+﻿using TubeTimes.Api.Models.DTO;
+using TubeTimes.Api.Models.TfLTypes;
 
 namespace TubeTimes.Api.Interfaces
 {
@@ -15,7 +16,14 @@ namespace TubeTimes.Api.Interfaces
         /// Gets list of lines by modes that are specified, with status information
         /// </summary>
         /// <returns></returns>
-        Task<List<Line>> GetLineStatuses(); 
-        
+        Task<List<Line>> GetLineStatuses();
+
+        /// <summary>
+        /// Gets a line and all of it's corresponding routes
+        /// </summary>
+        /// <param name="line">id of the line, e.g. <c>district</c></param>
+        /// <param name="direction"><c>inbound</c> or <c>outbound</c></param>
+        /// <returns>Line with it's corresponding routes, statuses, stopoint Id's and interconnections</returns>
+        Task<LineRouteResponse> GetLineRoute(string line, string direction);
     }
 }

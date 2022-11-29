@@ -21,6 +21,18 @@
             </div>
         </div>
     </form>
+
+    <div class="row g-2" *ngIf="isLoading">
+        <div class="col-12 col-xl-3 col-lg-4 col-md-6" *ngFor="let _ of [].constructor(8)">
+            <div class="load-wrapper mb-2" style="height: 102px;">
+                <div class="activity"></div>
+            </div>
+            <div class="load-wrapper" style="height: 72px;">
+                <div class="activity"></div>
+            </div>
+        </div>
+    </div>
+
     <div class="row g-2" [@fadeInOutStagger]="lines">
         <div class="stagger-animate col-12 col-xl-3 col-lg-4 col-md-6" *ngFor="let line of lines">
             <div class="card border-0 mb-2" [ngClass]="line.id">
@@ -34,6 +46,8 @@
                 <app-line-status [status]="status"></app-line-status>
             </div>
         </div>
-        <div class="alert alert-info" *ngIf="lines.length == 0">No lines found.</div>
+        <div class="col-12 stagger-animate">
+            <div class="alert alert-info" *ngIf="lines.length == 0 && !isLoading">No lines found.</div>
+        </div>
     </div>
 </div>

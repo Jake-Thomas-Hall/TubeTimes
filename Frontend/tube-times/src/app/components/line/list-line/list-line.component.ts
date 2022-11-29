@@ -20,6 +20,7 @@ export class ListLineComponent implements OnInit {
   lines: Line[] = [];
   lineListForm: FormGroup;
   private unfilteredLines: Line[] = [];
+  isLoading = true;
 
   constructor(
     private apiService: ApiService,
@@ -40,6 +41,7 @@ export class ListLineComponent implements OnInit {
     this.apiService.getLineStatuses().subscribe(result => {
       this.unfilteredLines = result;
       this.lines = result;
+      this.isLoading = false;
 
       // Only subscribe to query params in case of successful query
       this.route.queryParams

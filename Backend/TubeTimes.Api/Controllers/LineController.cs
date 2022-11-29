@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TubeTimes.Api.Interfaces;
-using TubeTimes.Api.Models;
+using TubeTimes.Api.Models.DTO;
+using TubeTimes.Api.Models.TfLTypes;
 
 namespace TubeTimes.Api.Controllers
 {
@@ -27,6 +28,12 @@ namespace TubeTimes.Api.Controllers
         public async Task<List<Line>> Get()
         {
             return await _tflAPI.GetLineStatuses();
+        }
+
+        [HttpGet("{line}/Route/Sequence/{direction}")]
+        public async Task<LineRouteResponse> Get(string line, string direction)
+        {
+            return await _tflAPI.GetLineRoute(line, direction);
         }
     }
 }

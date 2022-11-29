@@ -1,26 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
-$primary: #FFC100;
-$secondary: #0A0903;
+$primary: #ffc100;
+$secondary: #0a0903;
+$secondary-hover: #0a0903d0;
 @use "sass:map";
 
-@import '/node_modules/bootstrap/scss/bootstrap';
-@import '/node_modules/bootstrap-icons/font/bootstrap-icons';
+@import "/node_modules/bootstrap/scss/bootstrap";
+@import "/node_modules/bootstrap-icons/font/bootstrap-icons";
 
-$bakerloo: #B36305;
-$central: #E32017;
-$circle: #FFD300;
-$district: #00782A;
-$hammersmith-city: #F3A9BB;
-$jubilee: #A0A5A9;
-$metropolitan: #9B0056;
+$bakerloo: #b36305;
+$central: #e32017;
+$circle: #ffd300;
+$district: #00782a;
+$hammersmith-city: #f3a9bb;
+$jubilee: #a0a5a9;
+$metropolitan: #9b0056;
 $northern: #000000;
 $piccadilly: #003688;
-$victoria: #0098D4;
-$waterloo-city: #95CDBA;
-$dlr: #00A4A7;
-$elizabeth: #9364CD;
+$victoria: #0098d4;
+$waterloo-city: #95cdba;
+$dlr: #00a4a7;
+$elizabeth: #9364cd;
 $overground: #e86a10;
-$trams: #84B817;
+$trams: #84b817;
 
 $black: #000;
 $white: #fff;
@@ -40,14 +41,13 @@ $lines: (
     "dlr": $dlr,
     "elizabeth": $elizabeth,
     "london-overground": $overground,
-    "tram": $trams
+    "tram": $trams,
 );
 
 @function text-colour($colour) {
     @if (lightness($colour) > 60) {
         @return #000;
-    }
-    @else {
+    } @else {
         @return #fff;
     }
 }
@@ -62,6 +62,30 @@ $lines: (
             background-color: darken($colour, 5%) !important;
             border-color: darken($colour, 5%) !important;
         }
+    }
+
+    .#{$line}-link {
+        color: $colour !important;
+
+        &:hover {
+            color: darken($colour, 5%) !important;
+        }
+    }
+}
+
+.nav-pills.tubetimes-secondary .nav-link.active {
+    background-color: $secondary;
+
+    &:hover {
+        background-color: $secondary-hover;
+    }
+}
+
+.nav-pills.tubetimes-secondary .nav-link:not(.active) {
+    color: $secondary;
+
+    &:hover {
+        color: $secondary-hover;
     }
 }
 
@@ -78,4 +102,108 @@ nav {
     background-color: rgba(255, 255, 255, 0.575);
     color: black;
     border-radius: 3px;
+}
+
+.roundel-container {
+    display: inline-block;
+    position: relative;
+    width: 46px;
+    height: 36px;
+
+    @each $line, $colour in $lines {
+        .roundel-#{$line} {
+            left: 5px;
+            width: 36px;
+            height: 36px;
+            border: 7px solid $colour;
+            border-radius: 25px;
+            position: absolute;
+        }
+    }
+
+    .roundel-line {
+        width: 46px;
+        height: 8px;
+        top: 14px;
+        background-color: $secondary;
+        position: absolute;
+    }
+}
+
+.roundel-sm-container {
+    display: inline-block;
+    position: relative;
+    width: 24px;
+    height: 18px;
+
+    @each $line, $colour in $lines {
+        .roundel-sm-#{$line} {
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            border: 4px solid $colour;
+            border-radius: 15px;
+            position: absolute;
+        }
+    }
+
+    .roundel-sm-line {
+        width: 24px;
+        height: 4px;
+        top: 7px;
+        background-color: $secondary;
+        position: absolute;
+    }
+}
+
+.load-wrapper {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(211, 211, 211);
+    z-index: 44;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.activity {
+    position: absolute;
+    left: -45%;
+    height: 100%;
+    width: 45%;
+    background-image: linear-gradient(
+        to left,
+        rgba(251, 251, 251, 0.05),
+        rgba(251, 251, 251, 0.3),
+        rgba(251, 251, 251, 0.6),
+        rgba(251, 251, 251, 0.3),
+        rgba(251, 251, 251, 0.05)
+    );
+    background-image: -moz-linear-gradient(
+        to left,
+        rgba(251, 251, 251, 0.05),
+        rgba(251, 251, 251, 0.3),
+        rgba(251, 251, 251, 0.6),
+        rgba(251, 251, 251, 0.3),
+        rgba(251, 251, 251, 0.05)
+    );
+    background-image: -webkit-linear-gradient(
+        to left,
+        rgba(251, 251, 251, 0.05),
+        rgba(251, 251, 251, 0.3),
+        rgba(251, 251, 251, 0.6),
+        rgba(251, 251, 251, 0.3),
+        rgba(251, 251, 251, 0.05)
+    );
+    animation: loading 1s infinite;
+    z-index: 45;
+}
+
+@keyframes loading {
+    0% {
+        left: -45%;
+    }
+    100% {
+        left: 100%;
+    }
 }

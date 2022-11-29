@@ -2,7 +2,8 @@ import { Component, Input } from '@angular/core';
 import { chevronToggle } from 'src/app/animations/chevon-toggle-animation';
 import { fadeInOut } from 'src/app/animations/fade-in-out.animation';
 import { slideInOut } from 'src/app/animations/slide-in-out.animation';
-import { Line, LineStatus } from 'src/app/models/responses/lines.response.model';
+import { Line } from 'src/app/models/responses/lines.response.model';
+import { LineStatus } from "src/app/models/responses/line-status.response.model";
 
 @Component({
   selector: 'app-line-status',

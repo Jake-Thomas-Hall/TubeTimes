@@ -1,0 +1,28 @@
+.stop-container {
+    position: relative;
+
+    .stop-line {
+        width: 5px;
+        left: 40%;
+        margin-left: 15px;
+    }
+
+    .stop-point {
+        height: 5px;
+        width: 12px;
+        background-color: inherit;
+    }
+
+    .stop-interchange {
+        height: 20px;
+        width: 20px;
+        margin-left: -12px;
+        background-color: white !important;
+        border: 3px solid black;
+        border-radius: 20px;
+    }
+}
+
+.national-rail-logo {
+    height: 18px;
+}
