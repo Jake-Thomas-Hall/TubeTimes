@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Linq;
+using System.Runtime.CompilerServices;
 using TubeTimes.Api.Interfaces;
 using TubeTimes.Api.Models.DTO;
 using TubeTimes.Api.Models.TfLTypes;
@@ -8,6 +9,7 @@ namespace TubeTimes.Api.API
     public class TfLAPI : ITfLAPI
     {
         private readonly IRequestManager _requestManager;
+        private readonly List<string> modes = new() { "tube", "dlr", "overground", "elizabeth-line", "tram" };
 
         public TfLAPI(IRequestManager requestManager)
         {
@@ -131,6 +133,68 @@ namespace TubeTimes.Api.API
             }
 
             return lineRouteResponse;
+        }
+
+        public async Task<StationDetailResponse> GetStationById(string stationId)
+        {
+            StationDetailResponse stationDetailResponse = new();
+
+            var lines = await GetLines(null);
+
+            // Get station with high cache time, station details are just information, no need for regular updates
+            var stationDetail = await _requestManager.GetDataAsync<StationDetail>($"StopPoint/{stationId}", useCache: true, cacheKey: $"getStationDetail-{stationId}", cacheTimeoutSeconds: 1200);
+
+            stationDetailResponse.NaptanId = stationDetail.NaptanId;
+            stationDetailResponse.Modes = stationDetail.Modes;
+            stationDetailResponse.HubNaptanCode = stationDetail.HubNaptanCode;
+            stationDetailResponse.Lines = stationDetail.Lines.IntersectBy(lines.Select(x => x.Id), x => x.Id).ToList();
+            stationDetailResponse.Id = stationDetail.Id;
+            stationDetailResponse.CommonName = stationDetail.CommonName;
+
+            // Get arrivals for this station, Do not cache, ensures latest data is fetched each page load.
+            var arrivals = await _requestManager.GetDataAsync<List<Arrival>>($"StopPoint/{stationId}/Arrivals");
+
+            // If we are getting details for a hub station, also need to consider the child stations for valid modes, and do additional arrival queries for each
+            if (!string.IsNullOrEmpty(stationDetailResponse.HubNaptanCode))
+            {
+                foreach (var childStation in stationDetail.Children)
+                {
+                    // Station must be one of the modes allowed, and not the station that's already been queried.
+                    if (childStation.Id != stationId && childStation.Modes.Intersect(modes).Any())
+                    {
+                        arrivals.AddRange(await _requestManager.GetDataAsync<List<Arrival>>($"StopPoint/{childStation.Id}/Arrivals"));
+                    }
+                }
+            }
+
+            // Filter out any arrivals that aren't for the stations being considered
+            arrivals = arrivals.Where(x => lines.Any(y => y.Id == x.LineId)).ToList();
+            //arrivals = arrivals.IntersectBy(lines.Select(x => x.Id), x => x.LineId).ToList();
+
+            // Find all unique lines that have arrivals, then for each find the unique platforms involved then find the arrivals by this line/platform combination.
+            var uniqueArrivalLines = arrivals.DistinctBy(x => x.LineId).ToList();
+            foreach (var arrivalLine in uniqueArrivalLines)
+            {
+                LinePlatform linePlatform = new() { LineId = arrivalLine.LineId, LineName = arrivalLine.LineName };
+
+                var platforms = arrivals.Where(x => x.LineId == arrivalLine.LineId).Select(x => x.PlatformName).Distinct().ToList();
+
+                foreach (var platform in platforms)
+                {
+                    linePlatform.ArrivalPlatform.Add(new()
+                    {
+                        PlatformName = platform,
+                        Arrivals = arrivals.Where(x => x.PlatformName == platform && x.LineId == linePlatform.LineId).OrderBy(x => x.TimeToStation).ToList()
+                    });
+                }
+
+                linePlatform.ArrivalPlatform = linePlatform.ArrivalPlatform.OrderBy(x => x.PlatformName).ToList();
+                stationDetailResponse.LinePlatforms.Add(linePlatform);
+            }
+
+            stationDetailResponse.LinePlatforms = stationDetailResponse.LinePlatforms.OrderBy(x => x.LineId).ToList();
+
+            return stationDetailResponse;
         }
     }
 }

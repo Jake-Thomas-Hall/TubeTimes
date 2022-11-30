@@ -25,5 +25,13 @@ namespace TubeTimes.Api.Interfaces
         /// <param name="direction"><c>inbound</c> or <c>outbound</c></param>
         /// <returns>Line with it's corresponding routes, statuses, stopoint Id's and interconnections</returns>
         Task<LineRouteResponse> GetLineRoute(string line, string direction);
+
+        /// <summary>
+        /// Get the details of a station, for use on the station details page.
+        /// Arrivals need to be queried for a station as well.
+        /// </summary>
+        /// <param name="stationId">Station Id e.g. 940GZZLUWLO is a station code for Waterloo</param>
+        /// <returns>Details for a station: note that Hub stations can be returned as well</returns>
+        Task<StationDetailResponse> GetStationById(string stationId);
     }
 }

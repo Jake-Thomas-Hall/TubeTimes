@@ -1,1 +1,110 @@
-<p>line-station works!</p>
+<div class="row" [@fadeInStaggerAlt]="stationDetail">
+    <div class="col-12 col-lg-9">
+        <div class="d-flex align-items-center mb-3">
+            <div class="load-wrapper me-3" style="width: 250px; height: 40px;" *ngIf="isLoading">
+                <div class="activity"></div>
+            </div>
+            <h2 class="m-0 me-3">{{stationDetail?.commonName}}</h2>
+            <button class="btn btn-secondary" appBackButton type="button">Back <i class="bi bi-back"></i></button>
+        </div>
+        <h3 class="m-0 mb-3">Next services</h3>
+        <div class="alert alert-warning" *ngIf="stationDetail?.linePlatforms?.length! < 1 && !isLoading">
+            No services for this station could be found, it is likely the station is closed. <i class="bi bi-exclamation-circle-fill text-warning ps-2"></i>
+        </div>
+        <div *ngIf="isLoading">
+            <div class="p-4 rounded-2 bg-light mb-3" *ngFor="let _ of [].constructor(2)">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="load-wrapper me-3" style="width: 250px; height: 40px;" >
+                        <div class="activity"></div>
+                    </div>
+                    <div class="load-wrapper" style="width: 46px; height: 40px;">
+                        <div class="activity"></div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="load-wrapper me-3" style="width: 150px; height: 30px;">
+                        <div class="activity"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 py-2">
+                            <div class="load-wrapper me-3" style="width: 100%; height: 200px;">
+                                <div class="activity"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div *ngFor="let line of stationDetail?.linePlatforms" class="p-4 rounded-2 bg-light mb-3 stagger-animate">
+            <div class="d-flex align-items-center mb-3">
+                <h4 class="m-0 me-3">{{line.lineName}}</h4>
+                <div class="roundel-container me-3">
+                    <div [ngClass]="'roundel-' + line.lineId"></div>
+                    <div class="roundel-line"></div>
+                </div>
+            </div>
+            <div class="mb-3" *ngFor="let platform of line.arrivalPlatform">
+                <h4>{{platform.platformName}}</h4>
+                <div class="row" *ngFor="let arrival of platform.arrivals; let i = index;">
+                    <div class="col-1 py-2" [ngClass]="line.lineId + '-left-border'">
+                        <strong>{{i + 1}}</strong>
+                    </div>
+                    <div class="col-4 py-2">
+                        {{arrival.destinationName === null ? 'Check front of train' : arrival.destinationName}}
+                    </div>
+                    <div class="col-3 py-2">
+                        <strong>{{getTimeToArrival(arrival.timeToStation)}}</strong>
+                    </div>
+                    <div class="col-3 col-md-4 py-2">
+                        {{arrival.currentLocation}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-3">
+        <h3 class="m-0 mb-3 pb-1">Lines at this stop</h3>
+        <div class="row g-2" *ngIf="isLoading">
+            <div class="col-12" *ngFor="let _ of [].constructor(3)">
+                <div class="load-wrapper me-3" style="width: 100%; height: 84px;">
+                    <div class="activity"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row g-2">
+            <div class="col-12 stagger-animate" *ngFor="let line of stationDetail?.lines">
+                <a [routerLink]="['/line/', line.id]" class="bakerloo-link" [ngClass]="line.id + '-link'">
+                    <div class="p-4 rounded-2 bg-light d-flex align-items-center bakerloo-left-border" [ngClass]="line.id + '-left-border'">
+                        <div class="roundel-sm-container me-2">
+                            <div [ngClass]="'roundel-sm-' + line.id"></div>
+                            <div class="roundel-sm-line"></div>
+                        </div>
+                        <div class="ms-3">
+                            <strong>{{line.name}}</strong>
+                        </div>
+                        <div class="ms-auto fs-4">
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12" *ngIf="isNationalRailInterchange()">
+                <a href="https://www.nationalrail.co.uk/" class="national-rail-link">
+                    <div class="p-4 rounded-2 bg-light d-flex align-items-center national-rail-left-border">
+                        <img src="/assets/images/national-rail-logo.png" class="national-rail-logo"
+                            alt="National rail logo">
+                        <div class="ms-3">
+                            <strong>National Rail</strong>
+                        </div>
+                        <div class="ms-auto fs-4">
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

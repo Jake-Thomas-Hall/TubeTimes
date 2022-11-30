@@ -22,6 +22,7 @@ $dlr: #00a4a7;
 $elizabeth: #9364cd;
 $overground: #e86a10;
 $trams: #84b817;
+$national-rail: #ed1c24;
 
 $black: #000;
 $white: #fff;
@@ -42,6 +43,7 @@ $lines: (
     "elizabeth": $elizabeth,
     "london-overground": $overground,
     "tram": $trams,
+    "national-rail": $national-rail
 );
 
 @function text-colour($colour) {
@@ -70,6 +72,10 @@ $lines: (
         &:hover {
             color: darken($colour, 5%) !important;
         }
+    }
+
+    .#{$line}-left-border {
+        border-left: 6px solid $colour;
     }
 }
 
