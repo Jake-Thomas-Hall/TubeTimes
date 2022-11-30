@@ -196,5 +196,18 @@ namespace TubeTimes.Api.API
 
             return stationDetailResponse;
         }
+
+        public async Task<StationSearch> GetStationByName(string query)
+        {
+            // Perform station search query, no caching with max of 25 results
+            var stationDetail = await _requestManager.GetDataAsync<StationSearch>($"StopPoint/search/{query}", new() 
+            { 
+                { "modes", "tube,dlr,overground,elizabeth-line,tram" },
+                { "maxResults", "25" },
+                { "includeHubs", "true" } 
+            });
+
+            return stationDetail;
+        }
     }
 }

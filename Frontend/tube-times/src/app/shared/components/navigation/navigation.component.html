@@ -13,6 +13,9 @@
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/line">Lines</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/station">Station Search</a>
+                </li>
             </ul>
             <form class="d-flex position-relative" [formGroup]="searchForm" (appClickOutside)="closeSearch()">
                 <div class="input-group me-2">
@@ -22,10 +25,6 @@
                     <a tabindex="0" *ngFor="let line of searchResults" class="list-group-item list-group-item-action" [routerLink]="['/line', line.id]" >{{line.name}}</a>
                 </ul>
             </form>
-            <div class="d-flex mt-2 mt-lg-0">
-                <a class="btn btn-primary me-2" routerLink="/login" type="button">Login</a>
-                <a class="btn btn-outline-secondary" routerLink="/register" type="button">Register</a>
-            </div>
         </div>
     </div>
 </nav>

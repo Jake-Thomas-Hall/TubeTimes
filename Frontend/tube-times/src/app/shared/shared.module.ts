@@ -6,7 +6,6 @@ import { AppRoutingModule } from '../app-routing.module';
 import { BackButtonDirective } from './directives/back-button.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchHighlightDirective } from './directives/search-highlight.directive';
-import { ToastsComponent } from './components/toasts/toasts.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 
@@ -16,7 +15,6 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     HomeComponent,
     BackButtonDirective,
     SearchHighlightDirective,
-    ToastsComponent,
     ClickOutsideDirective
   ],
   imports: [
@@ -28,7 +26,6 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
   exports: [
     NavigationComponent,
     HomeComponent,
-    ToastsComponent,
     BackButtonDirective,
     SearchHighlightDirective,
     ClickOutsideDirective

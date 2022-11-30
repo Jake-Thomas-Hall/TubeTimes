@@ -1,0 +1,23 @@
+<h2>Search for a station</h2>
+<div>
+    <form [formGroup]="stationSearchForm" class="row g-3 mb-3">
+        <div class="col-12 col-md-3">
+            <label for="query" class="form-label">Station name</label>
+            <input autocomplete="off" formControlName="query" type="search" class="form-control" id="query"
+                placeholder="e.g. Bakerloo">
+        </div>
+        <div class="col-12 col-md-2">
+            <div class="d-flex align-items-end h-100">
+                <button class="btn btn-secondary" appBackButton type="button">Back <i class="bi bi-back"></i></button>
+            </div>
+        </div>
+    </form>
+
+    <p *ngIf="(searchResult$ | async)?.query?.trim() !== ''"><strong>Total results:</strong> {{(searchResult$ | async)?.total}}</p>
+
+    <div [@fadeInStaggerAlt]="(searchResult$ | async)">
+        <div class="list-group">
+            <a *ngFor="let match of (searchResult$ | async)?.matches" [routerLink]="[match.id]" class="list-group-item list-group-item-action stagger-animate">{{match.name}}</a>
+        </div>
+    </div>
+</div>

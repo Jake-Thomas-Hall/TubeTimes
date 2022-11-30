@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { LineRoute } from '../models/responses/line-route.response.model';
 import { Line } from '../models/responses/lines.response.model';
 import { StationDetail } from '../models/responses/station-detail.response.model';
+import { StationSearch } from '../models/responses/station-search.response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,9 @@ export class ApiService {
 
   getStationDetail(params: {[x: string]: any;}) {
     return this.http.get<StationDetail>(`${environment.apiUrl}Station/${params['station']}`);
+  }
+
+  getStationSearch(params: {[x: string]: any;}) {
+    return this.http.get<StationSearch>(`${environment.apiUrl}Station/Search/${params['query']}`);
   }
 }

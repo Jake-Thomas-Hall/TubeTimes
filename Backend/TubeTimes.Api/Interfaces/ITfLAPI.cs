@@ -33,5 +33,12 @@ namespace TubeTimes.Api.Interfaces
         /// <param name="stationId">Station Id e.g. 940GZZLUWLO is a station code for Waterloo</param>
         /// <returns>Details for a station: note that Hub stations can be returned as well</returns>
         Task<StationDetailResponse> GetStationById(string stationId);
+
+        /// <summary>
+        /// Returns a list of search results
+        /// </summary>
+        /// <param name="query">Station name query string</param>
+        /// <returns>Result with list of matches</returns>
+        Task<StationSearch> GetStationByName(string query);
     }
 }

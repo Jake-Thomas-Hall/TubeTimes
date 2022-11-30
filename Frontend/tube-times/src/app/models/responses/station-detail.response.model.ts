@@ -1,4 +1,4 @@
-import { LinePlatform } from "./LinePlatform";
+import { LinePlatform } from "./line-platform.response.model";
 import { Line } from "./lines.response.model";
 
 export interface StationDetail {

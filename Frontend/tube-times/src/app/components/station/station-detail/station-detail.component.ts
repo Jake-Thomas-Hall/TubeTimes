@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { fadeInStaggerAlt } from 'src/app/animations/fade-in-stagger.animation';
 import { StationDetail } from 'src/app/models/responses/station-detail.response.model';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
-  selector: 'app-line-station',
-  templateUrl: './line-station.component.html',
-  styleUrls: ['./line-station.component.scss'],
+  selector: 'app-station-detail',
+  templateUrl: './station-detail.component.html',
+  styleUrls: ['./station-detail.component.scss'],
   animations: [
     fadeInStaggerAlt
   ]
 })
-export class LineStationComponent implements OnInit {
+export class StationDetailComponent {
   isLoading = true;
   stationDetail?: StationDetail;
 

@@ -24,5 +24,11 @@ namespace TubeTimes.Api.Controllers
         {
             return await _tflAPI.GetStationById(stationId);
         }
+
+        [HttpGet("Search/{query}")]
+        public async Task<StationSearch> Search(string query)
+        {
+            return await _tflAPI.GetStationByName(query);
+        }
     }
 }

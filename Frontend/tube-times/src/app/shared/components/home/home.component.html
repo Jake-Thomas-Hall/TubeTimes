@@ -18,7 +18,7 @@
                 <p>Note that each line may contain a list of statuses, which affect different parts of the line. You can
                     filter the statuses by type at the top, and search by name in the provided search box.</p>
                 <div class="mt-auto">
-                    <a class="btn btn-outline-primary mt-2 mt-xxl-0" routerLink="/line">View <i
+                    <a class="btn btn-outline-secondary mt-2 mt-xxl-0" routerLink="/line">View <i
                             class="bi bi-view-list"></i></a>
                 </div>
             </div>
@@ -44,39 +44,24 @@
                 <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 piccadilly" routerLink="/line/piccadilly">Piccadilly</a>
                 <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 jubilee" routerLink="/line/jubilee">Jubilee</a>
                 <a class="btn btn-secondary me-2 mt-2 mt-xxl-0 northern" routerLink="/line/northern">Northern</a>
-                <a class="btn btn-outline-primary" routerLink="/line">View All <i class="bi bi-view-list"></i></a>
+                <a class="btn btn-outline-secondary" routerLink="/line">View All <i class="bi bi-view-list"></i></a>
             </div>
         </div>
     </div>
-
-    <div class="col-12 col-md-6 col-lg-4 stagger-animate">
-        <div class="card border-0 rounded-2 bg-light h-100">
-            <img src="/assets/images/placeholder.png" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">View timetables</h5>
-                <p class="card-text">Some placeholder text</p>
-                <a class="btn btn-primary" routerLink="/">Timetables</a>
+    <div class="col-12 col-lg-8 stagger-animate">
+        <div class="d-flex flex-column flex-lg-row align-items-center p-4 rounded-2 bg-light">
+            <div class="d-flex flex-column h-100 mt-3 mt-lg-0">
+                <h2>Station search</h2>
+                <p>Already know your station?</p>
+                <p>Click below to go to the station search tool, where you can find any TfL station by it's name.</p>
+                <div class="mt-auto">
+                    <a class="btn btn-outline-secondary mt-2 mt-xxl-0" routerLink="/station">Start Searching <i class="bi bi-search"></i></a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-6 col-lg-4 stagger-animate">
-        <div class="card border-0 rounded-2 bg-light h-100">
-            <img src="/assets/images/placeholder.png" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Find a station</h5>
-                <p class="card-text">Some placeholder text</p>
-                <a class="btn btn-primary" routerLink="/">Find station</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-lg-4 stagger-animate">
-        <div class="card border-0 rounded-2 bg-light h-100">
-            <img src="/assets/images/placeholder.png" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Plan a journey</h5>
-                <p class="card-text">Some placeholder text</p>
-                <a class="btn btn-primary" routerLink="/">Plan journey</a>
-            </div>
+    <div class="col-6 col-lg-4 stagger-animate">
+        <div class="h-100 rounded-2 status-image" style="background-image: url('/assets/images/search-example.png');">
         </div>
     </div>
 </div>
