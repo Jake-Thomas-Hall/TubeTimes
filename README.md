@@ -1,4 +1,4 @@
-# TubeTimes - A TfL querying web application
+# TubeTimes - A TfL API querying web application
 
 Live instance: https://ws326200-atwd2.remote.ac/
 
