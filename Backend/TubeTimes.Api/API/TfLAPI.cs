@@ -9,11 +9,13 @@ namespace TubeTimes.Api.API
     public class TfLAPI : ITfLAPI
     {
         private readonly IRequestManager _requestManager;
+        private readonly ILogger<TfLAPI> _logger;
         private readonly List<string> modes = new() { "tube", "dlr", "overground", "elizabeth-line", "tram" };
 
-        public TfLAPI(IRequestManager requestManager)
+        public TfLAPI(IRequestManager requestManager, ILogger<TfLAPI> logger)
         {
             _requestManager = requestManager;
+            _logger = logger;
         }
 
         public async Task<List<Line>> GetLines(string? search)
@@ -141,8 +143,17 @@ namespace TubeTimes.Api.API
 
             var lines = await GetLines(null);
 
-            // Get station with high cache time, station details are just information, no need for regular updates
-            var stationDetail = await _requestManager.GetDataAsync<StationDetail>($"StopPoint/{stationId}", useCache: true, cacheKey: $"getStationDetail-{stationId}", cacheTimeoutSeconds: 1200);
+            var stationDetail = new StationDetail();
+
+            try
+            {
+                // Get station with high cache time, station details are just information, no need for regular updates
+                stationDetail = await _requestManager.GetDataAsync<StationDetail>($"StopPoint/{stationId}", useCache: true, cacheKey: $"getStationDetail-{stationId}", cacheTimeoutSeconds: 1200);
+            } catch (HttpRequestException ex)
+            {
+                _logger.LogError(ex, $"Could not find station with ID {stationId}, returning empty result. Error: {ex.Message}");
+                return stationDetailResponse;
+            }
 
             stationDetailResponse.NaptanId = stationDetail.NaptanId;
             stationDetailResponse.Modes = stationDetail.Modes;
@@ -167,9 +178,8 @@ namespace TubeTimes.Api.API
                 }
             }
 
-            // Filter out any arrivals that aren't for the stations being considered
+            // Filter out any arrivals that aren't for the stations being considered, also filter out duplicate services for a line
             arrivals = arrivals.Where(x => lines.Any(y => y.Id == x.LineId)).ToList();
-            //arrivals = arrivals.IntersectBy(lines.Select(x => x.Id), x => x.LineId).ToList();
 
             // Find all unique lines that have arrivals, then for each find the unique platforms involved then find the arrivals by this line/platform combination.
             var uniqueArrivalLines = arrivals.DistinctBy(x => x.LineId).ToList();
@@ -205,7 +215,7 @@ namespace TubeTimes.Api.API
                 { "modes", "tube,dlr,overground,elizabeth-line,tram" },
                 { "maxResults", "25" },
                 { "includeHubs", "true" } 
-            });
+            }, useCache: true, cacheKey: $"getStationSearch-{query}", cacheTimeoutSeconds: 1200);
 
             return stationDetail;
         }
