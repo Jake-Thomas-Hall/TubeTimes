@@ -181,6 +181,10 @@ namespace TubeTimes.Api.API
             // Filter out any arrivals that aren't for the stations being considered, also filter out duplicate services for a line
             arrivals = arrivals.Where(x => lines.Any(y => y.Id == x.LineId)).ToList();
 
+            // Also then deduplicate arrivals by the unique combination of platform, line and vehicle - this is needed as some hub stations
+            // return the same arrivals across different child stations, resulting in duplicates
+            arrivals = arrivals.GroupBy(x => new { x.PlatformName, x.LineId, x.VehicleId }).Select(x => x.First()).ToList();
+
             // Find all unique lines that have arrivals, then for each find the unique platforms involved then find the arrivals by this line/platform combination.
             var uniqueArrivalLines = arrivals.DistinctBy(x => x.LineId).ToList();
             foreach (var arrivalLine in uniqueArrivalLines)
