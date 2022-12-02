@@ -18,7 +18,6 @@ builder.Services.AddCors(options =>
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient<IRequestManager, RequestManager>();
 builder.Services.AddScoped<ITfLAPI, TfLAPI>();
-//builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
